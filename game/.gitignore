@@ -1,1 +1,30 @@
-/bin/
+# Eclipse-specific files
+.settings/
+.classpath
+.project
+
+# Compiled class files
+*.class
+
+# Maven / Gradle directories (si usas alguno)
+target/
+bin/
+build/
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# IDEs
+.idea/
+*.iml
+.vscode/
+
+# Java-specific
+*.jar
+*.war
+*.ear
