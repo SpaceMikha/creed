@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 
 public class Entity {
     
-    public int x, y; // Position of the entity
+    public int worldX, worldY; // Position of the entity in the game world
     public int speed; // Speed of the entity
 
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2; // Images for the entity's animations
