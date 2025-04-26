@@ -12,9 +12,16 @@ public class Player extends Entity {
     GamePanel gp;
     KeyHandler keyH;
 
+    public final int screenX; // X coordinate of the player on the screen
+    public final int screenY; // Y coordinate of the player on the screen
+
     public Player(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
         this.keyH = keyH;
+
+        screenX = gp.screenWidth / 2 - (gp.tileSize / 2); // Center the player on the screen
+        screenY = gp.screenHeight / 2 - (gp.tileSize / 2); // Center the player on the screen
+
 
         setDefaultValues();
         getPlayerImage();
@@ -22,8 +29,8 @@ public class Player extends Entity {
 
     public void setDefaultValues() {
 
-        x = 100;
-        y = 100;
+        worldX = gp.tileSize * 23; // Initial position of the player in the game world
+        worldY = gp.tileSize * 21; // Initial position of the player in the game world;
         speed = 4;
         direction = "down";
 
@@ -52,16 +59,16 @@ public class Player extends Entity {
          
             if (keyH.upPressed == true) {
                 direction = "up";
-                y -= speed;
+                worldY -= speed;
             } else if (keyH.downPressed == true) {
                 direction = "down";
-                y += speed;
+                worldY += speed;
             } else if (keyH.leftPressed == true) {
                 direction = "left";
-                x -= speed;
+                worldX -= speed;
             } else if (keyH.rightPressed == true) {
                 direction = "right";
-                x += speed;
+                worldX += speed;
             }
     
             // sprite counter for animation
@@ -117,6 +124,6 @@ public class Player extends Entity {
                 }
                 break;  
         }
-        g2.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
+        g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
     }
 }
