@@ -1,4 +1,4 @@
-package Main;
+package main;
 
 import entity.Player;
 import java.awt.Color;
@@ -34,6 +34,8 @@ public class GamePanel extends JPanel implements Runnable {
     TileManager tileM = new TileManager(this);
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;
+    
+    public CollisionChecker cChecker = new CollisionChecker(this);
     public Player player = new Player(this, keyH);
 
     // Game state
