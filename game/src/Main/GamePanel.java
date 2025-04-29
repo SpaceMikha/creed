@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JPanel;
+import object.SuperObject;
 import tiles.TileManager;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -20,13 +21,11 @@ public class GamePanel extends JPanel implements Runnable {
     public int screenWidth = tileSize * maxScreenCol; // 768 pixels
     public int screenHeight = tileSize * maxScreenRow; // 576 pixels
 
-
     //World settings
     public final int maxWorldCol = 50;
     public final int maxWorlRow = 50;
     public final int maxWorldWidth = tileSize * maxWorldCol; // 768 pixels
     public final int maxWorldHeight = tileSize * maxWorlRow; // 576 pixels
-
 
     // FPS
     int FPS = 60;
@@ -34,9 +33,11 @@ public class GamePanel extends JPanel implements Runnable {
     TileManager tileM = new TileManager(this);
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;
-    
+
     public CollisionChecker cChecker = new CollisionChecker(this);
+    public AssetSetter aSetter = new AssetSetter(this);
     public Player player = new Player(this, keyH);
+    public SuperObject obj[] = new SuperObject[10]; //display up to 10 objects on the screen (0-9)
 
     // Game state
     public GamePanel() {
@@ -46,6 +47,12 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
+    }
+
+    public void setupGame() {
+
+        aSetter.setObject(); // set up objects
+        tileM.loadMap("/res/maps/map01.txt"); // load the map
     }
 
     public void startGameThread() {
@@ -95,13 +102,23 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void paintComponent(Graphics g) {
-
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D) g;
 
+        //TILE
         tileM.draw(g2);
 
+        //OBJECTS
+        for (int i = 0; i < obj.length; i++) {
+
+            if (obj[i] != null) {
+                obj[i].draw(g2, this); // pass the GamePanel instance to the draw method
+            }
+
+        }
+
+        //Player
         player.draw(g2);
 
         g2.dispose();
