@@ -133,14 +133,21 @@ public class Player extends Entity {
            switch(objectNmae){
             
             case "Key":
+                gp.playSE(1);
                 hasKey++;
                 gp.obj[i] = null; // Remove the object from the game
                 break;
             case "Door":
                 if (hasKey > 0) {
+                    gp.playSE(3);
                     gp.obj[i] = null; // Remove the object from the game
                     hasKey--;
                 }
+                break;
+            case "Boots":
+                gp.playSE(2);
+                speed += 2; // Increase the player's speed
+                gp.obj[i] = null; // Remove the object from the game
                 break;
 
            }
