@@ -16,6 +16,8 @@ public class Player extends Entity {
     public final int screenX; // X coordinate of the player on the screen
     public final int screenY; // Y coordinate of the player on the screen
 
+    public int hasKey = 0; // Number of keys the player has
+
     public Player(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
         this.keyH = keyH;
@@ -24,8 +26,13 @@ public class Player extends Entity {
         screenY = gp.screenHeight / 2 - (gp.tileSize / 2); // Center the player on the screen
 
         solidArea = new Rectangle(); // Collision area for the player
+        
         solidArea.x = 8;
         solidArea.y = 16;
+
+        solidAreaDefaultX = solidArea.x; // Default X position of the collision area
+        solidAreaDefaultY = solidArea.y; // Default Y position of the collision area
+        
         solidArea.width = 32;
         solidArea.height = 32;
 
@@ -81,6 +88,10 @@ public class Player extends Entity {
             collisionOn = false;
             gp.cChecker.checkTile(this);
 
+            // Check for collision with objects
+            int objIndex = gp.cChecker.checkObject(this, true);
+            pickUpObject(objIndex);
+
             // if collision is false, move the player
             if (collisionOn == false) {
                 switch (direction) {
@@ -111,6 +122,31 @@ public class Player extends Entity {
             }
 
         }
+    }
+
+    public void pickUpObject(int i){
+
+        if (i != 999) { // If an object is found
+           
+           String objectNmae = gp.obj[i].name;
+
+           switch(objectNmae){
+            
+            case "Key":
+                hasKey++;
+                gp.obj[i] = null; // Remove the object from the game
+                break;
+            case "Door":
+                if (hasKey > 0) {
+                    gp.obj[i] = null; // Remove the object from the game
+                    hasKey--;
+                }
+                break;
+
+           }
+
+        }
+
     }
 
     public void draw(Graphics2D g2) {
