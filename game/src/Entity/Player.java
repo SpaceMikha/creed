@@ -136,20 +136,32 @@ public class Player extends Entity {
                 gp.playSE(1);
                 hasKey++;
                 gp.obj[i] = null; // Remove the object from the game
+                gp.ui.showMessage("You got a key!"); // Show message to the player
                 break;
+
             case "Door":
                 if (hasKey > 0) {
                     gp.playSE(3);
                     gp.obj[i] = null; // Remove the object from the game
                     hasKey--;
+                    gp.ui.showMessage("Door unlocked!"); 
+                } else {
+                    gp.ui.showMessage("You need a key to open this door!");
                 }
                 break;
+
             case "Boots":
                 gp.playSE(2);
                 speed += 2; // Increase the player's speed
                 gp.obj[i] = null; // Remove the object from the game
+                gp.ui.showMessage("You got a pair of boots!"); // Show message to the playe
                 break;
-
+            
+            case "Chest":
+                gp.ui.gameFinished = true; // Set the game as finished
+                gp.stopMusic();
+                gp.playSE(4);
+                break;
            }
 
         }
