@@ -18,6 +18,8 @@ public class Player extends Entity {
 
     public int hasKey = 0; // Number of keys the player has
 
+    int standCounter = 0; // Counter for standing still
+
     public Player(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
         this.keyH = keyH;
@@ -120,7 +122,16 @@ public class Player extends Entity {
                 }
                 spriteCounter = 0;
             }
+        }
+        else {
 
+            // If the player is not moving, increment the stand counter
+            standCounter++;
+
+            if(standCounter > 20) {
+                spriteNum = 1; // Set to the first sprite when standing still
+                standCounter = 0; // Reset the counter
+            }
         }
     }
 
